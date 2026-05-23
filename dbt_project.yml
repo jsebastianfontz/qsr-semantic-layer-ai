@@ -1,0 +1,39 @@
+name: 'qsr_analytics'
+version: '1.0.0'
+config-version: 2
+
+profile: 'qsr_analytics'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  qsr_analytics:
+    staging:
+      +materialized: view
+      +schema: staging
+    marts:
+      +materialized: table
+      +schema: marts
+    metrics:
+      +materialized: view
+      +schema: metrics
+    semantic:
+      +materialized: view
+
+seeds:
+  qsr_analytics:
+    +schema: raw
+
+vars:
+  start_date: '2023-01-01'
+  end_date: '2024-12-31'

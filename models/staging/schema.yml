@@ -1,0 +1,46 @@
+version: 2
+
+models:
+  - name: stg_stores
+    description: Cleaned store master data.
+    columns:
+      - name: store_id
+        tests: [unique, not_null]
+      - name: region
+        tests:
+          - accepted_values:
+              arguments:
+                values: [Northeast, Southeast, West, Midwest]
+      - name: open_date
+        tests: [not_null]
+
+  - name: stg_daily_sales
+    description: Cleaned daily sales records, one row per store per day.
+    columns:
+      - name: store_id
+        tests: [not_null]
+      - name: sale_date
+        tests: [not_null]
+      - name: net_sales
+        tests:
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: ">= 0"
+      - name: transaction_count
+        tests:
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "> 0"
+
+  - name: stg_monthly_targets
+    description: Monthly sales targets per store.
+    columns:
+      - name: store_id
+        tests: [not_null]
+      - name: target_month_date
+        tests: [not_null]
+      - name: sales_target
+        tests:
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "> 0"

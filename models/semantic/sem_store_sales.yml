@@ -1,0 +1,99 @@
+semantic_models:
+  - name: store_sales
+    description: >
+      Semantic model over fct_daily_sales. Single source of truth for
+      store-level sales, digital mix, and target attainment metrics.
+    model: ref('fct_daily_sales')
+
+    entities:
+      - name: store
+        type: primary
+        expr: store_id
+
+    dimensions:
+      - name: sale_date
+        type: time
+        type_params:
+          time_granularity: day
+        expr: sale_date
+
+      - name: region
+        type: categorical
+        expr: region
+
+      - name: city
+        type: categorical
+        expr: city
+
+      - name: state
+        type: categorical
+        expr: state
+
+      - name: is_weekend
+        type: categorical
+        expr: is_weekend
+
+      - name: season
+        type: categorical
+        expr: season
+
+      - name: is_same_store_eligible
+        type: categorical
+        expr: is_same_store_eligible
+
+      - name: open_year
+        type: categorical
+        expr: open_year
+
+      - name: us_holiday
+        type: categorical
+        expr: us_holiday
+
+    measures:
+      - name: total_net_sales
+        description: Sum of daily net sales across all stores.
+        agg: sum
+        expr: net_sales
+        agg_time_dimension: sale_date
+
+      - name: total_gross_sales
+        description: Sum of daily gross sales.
+        agg: sum
+        expr: gross_sales
+        agg_time_dimension: sale_date
+
+      - name: total_digital_sales
+        description: Sum of digital channel sales.
+        agg: sum
+        expr: digital_sales
+        agg_time_dimension: sale_date
+
+      - name: total_in_store_sales
+        description: Sum of in-store sales.
+        agg: sum
+        expr: in_store_sales
+        agg_time_dimension: sale_date
+
+      - name: total_transactions
+        description: Sum of transaction counts.
+        agg: sum
+        expr: transaction_count
+        agg_time_dimension: sale_date
+
+      - name: total_daily_target
+        description: Sum of prorated daily targets.
+        agg: sum
+        expr: daily_target
+        agg_time_dimension: sale_date
+
+      - name: store_count
+        description: Distinct number of stores.
+        agg: count_distinct
+        expr: store_id
+        agg_time_dimension: sale_date
+
+      - name: same_store_net_sales
+        description: Net sales restricted to same-store-eligible locations.
+        agg: sum
+        expr: "case when is_same_store_eligible then net_sales else 0 end"
+        agg_time_dimension: sale_date

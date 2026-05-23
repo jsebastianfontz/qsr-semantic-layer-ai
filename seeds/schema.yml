@@ -1,0 +1,76 @@
+version: 2
+
+seeds:
+  - name: stores
+    description: Master list of QSR store locations.
+    columns:
+      - name: store_id
+        tests: [unique, not_null]
+      - name: store_name
+        tests: [not_null]
+      - name: city
+        tests: [not_null]
+      - name: state
+        tests: [not_null]
+      - name: region
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [Northeast, Southeast, West, Midwest]
+      - name: open_date
+        tests: [not_null]
+
+  - name: daily_sales
+    description: Daily sales by store for 2023-2024.
+    columns:
+      - name: store_id
+        tests: [not_null]
+      - name: sale_date
+        tests: [not_null]
+      - name: gross_sales
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: ">= 0"
+      - name: net_sales
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: ">= 0"
+      - name: digital_sales
+        tests: [not_null]
+      - name: in_store_sales
+        tests: [not_null]
+      - name: transaction_count
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "> 0"
+
+  - name: monthly_targets
+    description: Monthly net sales targets per store for 2023-2024.
+    columns:
+      - name: store_id
+        tests: [not_null]
+      - name: year
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [2023, 2024]
+      - name: month
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "between 1 and 12"
+      - name: sales_target
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "> 0"

@@ -1,0 +1,77 @@
+metrics:
+  # ─────────────────────────────────────────────────────────────────────────────
+  # Simple (measure-level) metrics — building blocks for ratios
+  # ─────────────────────────────────────────────────────────────────────────────
+  - name: total_net_sales
+    label: Total Net Sales
+    description: Sum of net sales across all stores.
+    type: simple
+    type_params:
+      measure:
+        name: total_net_sales
+
+  - name: total_digital_sales
+    label: Total Digital Sales
+    description: Sum of digital-channel sales.
+    type: simple
+    type_params:
+      measure:
+        name: total_digital_sales
+
+  - name: total_daily_target
+    label: Total Daily Target
+    description: Sum of prorated daily sales targets.
+    type: simple
+    type_params:
+      measure:
+        name: total_daily_target
+
+  - name: same_store_net_sales
+    label: Same-Store Net Sales
+    description: >
+      Net sales for stores open >= 12 months before 2023-01-01
+      (is_same_store_eligible = true).
+    type: simple
+    type_params:
+      measure:
+        name: same_store_net_sales
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # Ratio metrics
+  # ─────────────────────────────────────────────────────────────────────────────
+
+  - name: same_store_sales_growth
+    label: Same-Store Sales Growth
+    description: >
+      Year-over-year growth for same-store-eligible locations.
+      Compares current period net sales to the same period one year prior.
+    type: ratio
+    type_params:
+      numerator:
+        name: same_store_net_sales
+      denominator:
+        name: same_store_net_sales
+        offset_window: 365 days
+
+  - name: target_attainment
+    label: Target Attainment
+    description: >
+      Ratio of actual net sales to prorated daily target.
+      1.0 = exactly on plan; > 1.0 = over-target.
+    type: ratio
+    type_params:
+      numerator:
+        name: total_net_sales
+      denominator:
+        name: total_daily_target
+
+  - name: digital_channel_mix
+    label: Digital Channel Mix
+    description: >
+      Percentage of net sales from digital channels (app / online orders).
+    type: ratio
+    type_params:
+      numerator:
+        name: total_digital_sales
+      denominator:
+        name: total_net_sales

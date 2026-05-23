@@ -1,0 +1,51 @@
+store_id,store_name,city,state,region,open_date
+S001,QSR Syracuse 1,Syracuse,NY,Northeast,2021-02-18
+S002,QSR Savannah 2,Savannah,GA,Southeast,2021-11-20
+S003,QSR Huntsville 3,Huntsville,AL,Southeast,2021-10-07
+S004,QSR Albany 4,Albany,NY,Northeast,2022-02-02
+S005,QSR Jacksonville 5,Jacksonville,FL,Southeast,2022-04-25
+S006,QSR Boise 6,Boise,ID,West,2021-02-28
+S007,QSR Orlando 7,Orlando,FL,Southeast,2020-02-13
+S008,QSR Chicago 8,Chicago,IL,Midwest,2021-08-21
+S009,QSR Richmond 9,Richmond,VA,Southeast,2021-03-12
+S010,QSR Bridgeport 10,Bridgeport,CT,Northeast,2021-04-22
+S011,QSR Minneapolis 11,Minneapolis,MN,Midwest,2021-12-22
+S012,QSR Greenville 12,Greenville,SC,Southeast,2022-02-20
+S013,QSR Salt Lake City 13,Salt Lake City,UT,West,2022-03-18
+S014,QSR Denver 14,Denver,CO,West,2022-04-06
+S015,QSR San Diego 15,San Diego,CA,West,2021-07-09
+S016,QSR Milwaukee 16,Milwaukee,WI,Midwest,2022-12-18
+S017,QSR Hartford 17,Hartford,CT,Northeast,2020-11-11
+S018,QSR Phoenix 18,Phoenix,AZ,West,2020-04-27
+S019,QSR Trenton 19,Trenton,NJ,Northeast,2020-06-13
+S020,QSR Los Angeles 20,Los Angeles,CA,West,2021-02-07
+S021,QSR Sacramento 21,Sacramento,CA,West,2022-12-11
+S022,QSR New York 22,New York,NY,Northeast,2020-11-16
+S023,QSR Cleveland 23,Cleveland,OH,Midwest,2021-11-15
+S024,QSR Nashville 24,Nashville,TN,Southeast,2020-05-05
+S025,QSR Indianapolis 25,Indianapolis,IN,Midwest,2020-12-18
+S026,QSR Grand Rapids 26,Grand Rapids,MI,Midwest,2022-05-24
+S027,QSR Spokane 27,Spokane,WA,West,2022-07-19
+S028,QSR Cincinnati 28,Cincinnati,OH,Midwest,2021-06-08
+S029,QSR Portland 29,Portland,OR,West,2020-09-16
+S030,QSR Raleigh 30,Raleigh,NC,Southeast,2020-01-28
+S031,QSR Birmingham 31,Birmingham,AL,Southeast,2020-03-21
+S032,QSR New Haven 32,New Haven,CT,Northeast,2020-11-14
+S033,QSR Akron 33,Akron,OH,Midwest,2022-02-13
+S034,QSR Las Vegas 34,Las Vegas,NV,West,2021-10-15
+S035,QSR Kansas City 35,Kansas City,MO,Midwest,2022-05-18
+S036,QSR Atlanta 36,Atlanta,GA,Southeast,2020-11-24
+S037,QSR Columbus 37,Columbus,OH,Midwest,2020-11-18
+S038,QSR Omaha 38,Omaha,NE,Midwest,2021-11-11
+S039,QSR Philadelphia 39,Philadelphia,PA,Northeast,2020-05-14
+S040,QSR Seattle 40,Seattle,WA,West,2020-08-01
+S041,QSR Albuquerque 41,Albuquerque,NM,West,2022-12-09
+S042,QSR Providence 42,Providence,RI,Northeast,2022-03-17
+S043,QSR Tucson 43,Tucson,AZ,West,2020-11-10
+S044,QSR Newark 44,Newark,NJ,Northeast,2022-09-20
+S045,QSR Rochester 45,Rochester,NY,Northeast,2020-03-12
+S046,QSR Miami 46,Miami,FL,Southeast,2020-09-25
+S047,QSR Charlotte 47,Charlotte,NC,Southeast,2022-01-20
+S048,QSR Tampa 48,Tampa,FL,Southeast,2021-08-01
+S049,QSR St. Louis 49,St. Louis,MO,Midwest,2020-06-27
+S050,QSR Boston 50,Boston,MA,Northeast,2021-04-02
