@@ -1,5 +1,7 @@
 # QSR Analytics — dbt Core + DuckDB Portfolio Project
 
+[![dbt CI](https://github.com/jsebastianfontz/qsr-semantic-layer-ai/actions/workflows/dbt_ci.yml/badge.svg)](https://github.com/jsebastianfontz/qsr-semantic-layer-ai/actions/workflows/dbt_ci.yml)
+
 A fully self-contained analytics engineering portfolio project for a fictional Quick Service Restaurant (QSR) chain. It demonstrates a production-grade dbt project with synthetic data, a layered data model, MetricFlow semantic models, and four business metrics.
 
 ---

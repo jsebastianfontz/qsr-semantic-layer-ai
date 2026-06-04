@@ -1,0 +1,81 @@
+# Docs workflow: publish the dbt catalog to GitHub Pages on every push to main.
+# Requires GitHub Pages to be enabled for this repo:
+#   Settings → Pages → Source: "GitHub Actions"
+
+name: dbt Docs → GitHub Pages
+
+on:
+  push:
+    branches: [main]
+
+# Grant the GITHUB_TOKEN the minimum permissions needed for Pages deployment.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one deployment runs at a time; a new push cancels a queued one.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build-docs:
+    name: Generate dbt docs
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── 1. Source code ──────────────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── 2. Runtime ──────────────────────────────────────────────────────────
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      # ── 3. dbt adapter ──────────────────────────────────────────────────────
+      - name: Install dbt-duckdb
+        run: pip install dbt-duckdb
+
+      # ── 4. dbt packages ─────────────────────────────────────────────────────
+      - name: Install dbt packages
+        run: dbt deps --profiles-dir .
+
+      # ── 5. Seed + run — required so the catalog reflects all relations ───────
+      - name: Load seed data
+        run: dbt seed --profiles-dir .
+
+      - name: Run dbt models
+        run: dbt run --profiles-dir .
+
+      # ── 6. Generate docs ─────────────────────────────────────────────────────
+      # Produces target/index.html, target/catalog.json, target/manifest.json
+      - name: Generate dbt docs
+        run: dbt docs generate --profiles-dir .
+
+      # ── 7. Package docs for GitHub Pages ─────────────────────────────────────
+      # The Pages action expects a single artifact named "github-pages".
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: target/   # dbt docs generate writes here
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build-docs
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

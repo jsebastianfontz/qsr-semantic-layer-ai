@@ -1,0 +1,65 @@
+# CI workflow: validate every pull request and every push to main.
+# Uses DuckDB so no external database credentials are required.
+
+name: dbt CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  dbt-ci:
+    name: Build & test dbt project
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── 1. Source code ──────────────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── 2. Runtime ──────────────────────────────────────────────────────────
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip           # cache pip downloads across runs
+
+      # ── 3. dbt adapter ──────────────────────────────────────────────────────
+      - name: Install dbt-duckdb
+        run: pip install dbt-duckdb
+
+      # ── 4. dbt packages (e.g. dbt_utils) ───────────────────────────────────
+      # profiles.yml lives in the repo root, so we pass --profiles-dir .
+      - name: Install dbt packages
+        run: dbt deps --profiles-dir .
+
+      # ── 5. Seed data ─────────────────────────────────────────────────────────
+      # Loads CSVs from seeds/ into DuckDB before models can reference them.
+      - name: Load seed data
+        run: dbt seed --profiles-dir .
+
+      # ── 6. Models ────────────────────────────────────────────────────────────
+      - name: Run dbt models
+        run: dbt run --profiles-dir .
+
+      # ── 7. Tests ─────────────────────────────────────────────────────────────
+      # Runs schema tests (not-null, unique, etc.) and any custom data tests.
+      - name: Run dbt tests
+        run: dbt test --profiles-dir .
+
+      # ── 8. Docs ──────────────────────────────────────────────────────────────
+      # Compiles the catalog + manifest so docs can be deployed downstream.
+      - name: Generate dbt docs
+        run: dbt docs generate --profiles-dir .
+
+      # ── 9. Upload compiled docs as an artifact ───────────────────────────────
+      # Makes the target/ folder available for the dbt_docs workflow and for
+      # manual download from the Actions UI.
+      - name: Upload docs artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dbt-docs
+          path: target/
+          retention-days: 7
