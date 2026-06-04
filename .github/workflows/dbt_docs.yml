@@ -38,7 +38,7 @@ jobs:
 
       # ── 3. dbt adapter ──────────────────────────────────────────────────────
       - name: Install dbt-duckdb
-        run: pip install dbt-duckdb
+        run: pip install -r requirements.txt
 
       # ── 4. dbt packages ─────────────────────────────────────────────────────
       - name: Install dbt packages
